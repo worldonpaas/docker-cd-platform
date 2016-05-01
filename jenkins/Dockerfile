@@ -2,9 +2,9 @@ FROM java:8
 
 MAINTAINER nk
 
-ENV ITBOX_DATA /projects/itbox/data
-ENV ITBOX_SCRIPTS /projects/itbox/scripts
-ENV ITBOX_TOOLS /projects/itbox/tools
+ENV ITBOX_DATA /usr/local/docker/itbox/data
+ENV ITBOX_SCRIPTS /usr/local/docker/itbox/scripts
+ENV ITBOX_TOOLS /usr/local/docker/itbox/tools
 
 ENV CATALINA_HOME $ITBOX_TOOLS/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -52,7 +52,9 @@ RUN jar -xvf jenkins.war
 EXPOSE 8080
 EXPOSE 50000
 
-#CMD ["catalina.sh", "run"]
-ENTRYPOINT ["catalina.sh", "run"]
-
 COPY scripts/plugins.sh ${ITBOX_SCRIPTS}/
+
+WORKDIR /
+
+CMD ["catalina.sh", "run"]
+#ENTRYPOINT ["catalina.sh", "run"]
